@@ -1,0 +1,84 @@
+name: AlbumFeed
+
+############
+# Options
+############
+
+options:
+  bundleIdPrefix: com.jill.app
+  xcodeVersion: "13.2.1"
+  deploymentTarget:
+    iOS: 13.0
+
+############
+# Schemes
+############
+
+schemes: 
+  AlbumFeed:
+    build:
+      targets:
+        AlbumFeed: all         
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      coverageTargets:
+        - AlbumFeed
+      targets:  
+        - name: AlbumFeedTests 
+          randomExecutionOrder: true  
+    profile: 
+      config: Debug 
+    analyze:
+      config: Debug
+    archive: 
+      config: Debug
+      
+############
+# Targets
+############
+
+targets:
+
+  # -----------
+  # AlbumFeed
+  # -----------
+
+  AlbumFeed:
+    type: application   
+    platform: iOS
+    
+    # sources 
+    sources: 
+      - path: AlbumFeed 
+
+    settings:
+      base:
+        TARGETED_DEVICE_FAMILY: 1,2
+        CODE_SIGN_STYLE: Manual
+        #INFOPLIST_FILE: AlbumFeed/Resource/Info.plist
+        EXCLUDED_ARCHS[sdk=iphonesimulator*]: arm64
+
+  # -----------
+  # AlbumFeedTests
+  # -----------
+
+  AlbumFeedTests:
+    type: bundle.unit-test
+    platform: iOS
+
+    # sources
+    sources:
+      - AlbumFeedTests
+
+    # dependencies
+    dependencies:
+      - target: AlbumFeed
+
+    settings:
+      base:
+        CODE_SIGN_STYLE: Manual
+        #INFOPLIST_FILE: AlbumFeedTests/Info.plist
+        EXCLUDED_ARCHS[sdk=iphonesimulator*]: arm64
