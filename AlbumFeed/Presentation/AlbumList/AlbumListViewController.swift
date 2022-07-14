@@ -40,7 +40,7 @@ class AlbumListViewController: UIViewController {
 // MARK: UI Setting
 private extension AlbumListViewController {
     private func setupUI() {
-        self.view.backgroundColor = .red
+        self.view.backgroundColor = .white
         
         
         [collectionView].forEach { [superView = self.view] in
@@ -81,8 +81,9 @@ private extension AlbumListViewController {
 // MARK: CollectionView delgate
 extension AlbumListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == self.collectionView, let cellVM = self.viewModel.output.userData.value?[indexPath.row] {
-            print("entity click:\(cellVM.username)")
+        if collectionView == self.collectionView, let cellVM = self.viewModel.output.albumData.value?[indexPath.row] {
+            print("entity click:\(cellVM.title)")
+            self.viewModel.input.showAlbumPhotos(entity: cellVM)
         }
     }
 }

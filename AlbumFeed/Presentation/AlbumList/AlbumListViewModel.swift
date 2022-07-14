@@ -10,8 +10,7 @@ import Foundation
 // Input
 public protocol AlbumListVMInput {
     func triggerInit()
-    // clickUser
-    // clickAlbum
+    func showAlbumPhotos(entity: AlbumEntity)
 }
 
 // Output
@@ -80,6 +79,9 @@ extension AlbumListViewModel {
                 self.alertMessage.value = (title: "Error", message: error.localizedDescription)
             }
         }
-        
+    }
+    
+    public func showAlbumPhotos(entity: AlbumEntity) {
+        self.coordinatorDelegate?.showAlbumPhotos(entity: entity)
     }
 }

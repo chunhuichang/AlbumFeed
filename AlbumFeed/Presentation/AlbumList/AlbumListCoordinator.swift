@@ -12,6 +12,7 @@ public protocol AlbumListDelegate: AnyObject {}
 
 // Current Coordinator go to next Coordinator
 public protocol AlbumListCoordinatorDelegate: AnyObject {
+    func showAlbumPhotos(entity: AlbumEntity)
 }
 
 public final class AlbumListCoordinator {
@@ -29,11 +30,17 @@ public final class AlbumListCoordinator {
         guard let vc = dependencies.makeAlbumListViewController(param: nil) as? AlbumListViewController else {
             fatalError("Casting to ViewController fail")
         }
+        vc.viewModel.coordinatorDelegate = self
         navigationController?.pushViewController(vc, animated: false)
     }
 }
 
 extension AlbumListCoordinator: AlbumListCoordinatorDelegate {
+    public func showAlbumPhotos(entity: AlbumEntity) {
+        let DIContainer = dependencies.makePhotosSceneDIContainer()
+        let coordinator = DIContainer.makePhotosCoordinator(navigationController: navigationController, param: PhotosCoordinator.Params())
+        coordinator.start()
+    }
 }
 
 extension AlbumListCoordinator: AlbumListDelegate {}

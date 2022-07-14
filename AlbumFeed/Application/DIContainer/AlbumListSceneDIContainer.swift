@@ -10,6 +10,8 @@ import UIKit
 // make DIContainer or ViewController
 public protocol AlbumListCoordinatorDependencies  {
     func makeAlbumListViewController(param: AlbumListCoordinator.Params?) -> UIViewController
+    
+    func makePhotosSceneDIContainer() -> PhotosSceneDIContainer
 }
 
 public final class AlbumListSceneDIContainer {
@@ -41,6 +43,12 @@ extension AlbumListSceneDIContainer: AlbumListCoordinatorDependencies {
         
         let view = AlbumListViewController(viewModel: vm)
         return view
+    }
+    
+    // MARK: - DIContainers of scenes
+    public func makePhotosSceneDIContainer() -> PhotosSceneDIContainer {
+        let dependencies = PhotosSceneDIContainer.Dependencies()
+        return PhotosSceneDIContainer(dependencies: dependencies)
     }
 }
 
