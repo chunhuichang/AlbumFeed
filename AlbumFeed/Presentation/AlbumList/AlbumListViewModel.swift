@@ -46,7 +46,7 @@ public final class AlbumListViewModel: AlbumListVMInput, AlbumListVMOutput, Albu
     
     //output
     public var userData: Box<[UserEntity]>  = Box(nil)
-    public var albumData: Box<[AlbumEntity]>  = Box(nil)
+    public var albumData: Box<[AlbumEntity]>  = Box([AlbumEntity]())
     public var alertMessage: Box<(title: String, message: String)> = Box(nil)
 }
 
@@ -58,6 +58,9 @@ extension AlbumListViewModel {
             switch result {
             case .success(let entity):
                 self.userData.value = entity
+                for user in entity {
+                    self.triggerAlbumData(userId: user.id)
+                }
             case.failure(let error):
                 self.alertMessage.value = (title: "Error", message: error.localizedDescription)
             }
@@ -72,7 +75,7 @@ extension AlbumListViewModel {
         self.usecase?.fetchAlbums(param: param) { result in
             switch result {
             case .success(let entity):
-                self.albumData.value = entity
+                self.albumData.value?.append(contentsOf: entity)
             case.failure(let error):
                 self.alertMessage.value = (title: "Error", message: error.localizedDescription)
             }
